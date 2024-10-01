@@ -1,0 +1,194 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e9f5fb; 
+    color: #0e0d0d;
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    color: #2980b9;
+    margin-bottom: 15px;
+}
+
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.main-content {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.input-section {
+    margin: 20px 0;
+}
+
+.equation-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.variable-selection {
+    margin-left: 20px;
+}
+
+.sidebar label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.results {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.result-column {
+    flex: 1;
+    margin: 10px;
+    text-align: center;
+}
+
+.expression-section, 
+.variable-selection, 
+.result-column {
+    flex-basis: 33%;
+}
+
+.well {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#TruthTableDiv {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 12px;
+    background-color: #f8f9fa;
+    overflow: auto;
+    max-width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#KarnoMapDiv {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 12px;
+    background-color: #f8f9fa;
+    overflow: auto;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#TruthTableDiv table, #KarnoMapDiv table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px;
+}
+
+#TruthTableDiv th, #KarnoMapDiv th {
+    background-color: #2ecc71;
+    color: white;
+    padding: 12px 15px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+#TruthTableDiv td, #KarnoMapDiv td {
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    padding: 0;
+    text-align: center;
+    font-size: 14px;
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+}
+
+#TruthTableDiv tr:nth-child(even) {
+    background-color: #1abc9c;
+}
+
+#TruthTableDiv tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+#TruthTableID td {
+    width: 50px;
+}
+
+#KarnoMapDiv td:hover, #TruthTableDiv td:hover {
+    background-color: #bdc3c7; 
+    transform: scale(1.05); 
+    cursor: pointer; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+#KarnoMapDiv tr:nth-child(even) {
+    background-color: #e67e22; 
+}
+
+#KarnoMapDiv tr:nth-child(odd) {
+    background-color: #ffffff; 
+}
+
+#TruthTableDiv table, #KarnoMapDiv table {
+    border: none;
+}
+
+.kmap-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.kmap {
+    width: 300px; 
+    height: 300px; 
+    background-color: #f0f0f0; 
+    border: 1px solid #ccc; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px; 
+}

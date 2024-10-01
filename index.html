@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Karnaugh Map Builder and Solver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <center>
+            <h1>Karnaugh Map Builder and Solver</h1>
+        </center>
+    </div>
+    <div class="center-wrapper">
+        <div class="main-content">
+            <div class="fluid container add-bottom flex-container">
+                <div class="variable-selection sidebar well">
+                    <h2>Select Number of Variables:</h2>
+                    <div class="fluid container">
+                        <div class="sixteen columns well add-bottom">
+                            <label for="TwoVariableRB" class="dark button half-bottom full-width" style="text-align:left">
+                                <input type="radio" onClick="ChangeVariableNumber(2)" id="TwoVariableRB" name="variables" class="dark remove-bottom">
+                                Two Variables
+                            </label>
+
+                            <label for="ThreeVariableRB" class="dark button half-bottom full-width" style="text-align:left">
+                                <input type="radio" onClick="ChangeVariableNumber(3)" id="ThreeVariableRB" name="variables" class="dark remove-bottom">
+                                Three Variables
+                            </label>
+
+                            <label for="FourVariableRB" class="dark button half-bottom full-width" style="text-align:left">
+                                <input type="radio" onClick="ChangeVariableNumber(4)" id="FourVariableRB" name="variables" class="dark remove-bottom">
+                                Four Variables
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="expression-section">
+                    <h2>Enter Expression:</h2>
+                    <p>Use ! for NOT and + for OR operation</p>
+                    <div class="input-section">
+                        <input type="text" class="equation-input" id="equation" style="text-transform:uppercase;">
+                    </div>
+                    <p class="header-color half-bottom"></p>
+                    <div id="EquationDiv"></div>
+                </div>
+                <div class="result-column">
+                    <h2>Karnaugh Map</h2>
+                    <div id="KarnoMapDiv"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="fluid container add-bottom">
+            <div class="container results">
+                <div class="result-column">
+                    <p class="pull-center"><b>Truth Table</b></p>
+                    <div id="TruthTableDiv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="equation.js"></script>
+</body>
+
+</html>
