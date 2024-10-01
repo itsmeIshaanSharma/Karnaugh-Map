@@ -7,7 +7,6 @@ A simple tool to generate Karnaugh maps (K-maps) and simplify Boolean expression
 - Generate K-maps for 2, 3, or 4 variables.
 - Simplify Boolean expressions.
 - Visualize groups of minterms.
-- Supports don't-care conditions.
 
 ## Technologies used: 
 
