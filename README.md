@@ -5,10 +5,10 @@ A simple tool to generate Karnaugh maps (K-maps) and simplify Boolean expression
 ## Features
 
 - Generate K-maps for 2, 3, or 4 variables.
-- Simplify Boolean expressions.
+- Simplify Boolean Expressions.
 - Visualize groups of minterms.
 
-## Technologies used: 
+## Technologies used:
 
 - HTML
 - CSS
