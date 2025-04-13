@@ -34,16 +34,49 @@ function InitializeTables(VarCount) {
     KMap.Width = Width[VariableCount];
     KMap.Height = Height[VariableCount];
 
+    // Modified variable order for 3 variables
+    var displayVarNames = [...VariableNames];
+    var kMapVarNames = [...VariableNames];
+    if (VariableCount === 3) {
+        // Reorder variables for 3-variable K-map (A on left, BC on top)
+        kMapVarNames = [VariableNames[1], VariableNames[2], VariableNames[0]];
+    } else if (VariableCount === 4) {
+        kMapVarNames = [VariableNames[2], VariableNames[3], VariableNames[0], VariableNames[1]];
+    }
+
+    // Modified bit manipulation for 3 and 4 variables
     for (i = 0; i < Math.pow(2, VariableCount); i++) {
         TruthTable[i] = new Array();
         TruthTable[i].Index = i;
         TruthTable[i].Name = i.toString(2);
         TruthTable[i].ButtonUIName = "TT" + TruthTable[i].Name;
         TruthTable[i].TTROWUIName = "TTROW" + TruthTable[i].Name;
-        for (j = 0; j < Math.pow(2, VariableCount); j++) {
+        
+        for (j = 0; j < VariableCount; j++) {
             TruthTable[i][j] = new Array();
-            TruthTable[i][j].Variable = (i & (1 << (VariableCount - (1 + j))) ? 1 : 0) ? true : false;
-            TruthTable[i][j].Name = VariableNames[j];
+            if (VariableCount === 3) {
+                // Reorder bits for 3-variable K-map (A on left, BC on top)
+                switch(j) {
+                    case 0: bitPosition = 0; // A
+                        break;
+                    case 1: bitPosition = 2; // B
+                        break;
+                    case 2: bitPosition = 1; // C
+                        break;
+                }
+            } else {
+                bitPosition = VariableCount - (1 + j);
+                if (VariableCount === 4) {
+                    // Swap bit positions for AB and CD
+                    if (j < 2) {
+                        bitPosition = VariableCount - (3 + j);
+                    } else {
+                        bitPosition = VariableCount - (j - 1);
+                    }
+                }
+            }
+            TruthTable[i][j].Variable = (i & (1 << bitPosition)) ? true : false;
+            TruthTable[i][j].Name = displayVarNames[j];
             TruthTable[i][j].KMapEntry = null;
         }
     }
@@ -71,8 +104,9 @@ function InitializeTables(VarCount) {
     }
 
     FunctionText = "ƒ(";
+    // Use original variable order for function text
     for (i = 0; i < VariableCount; i++) {
-        FunctionText += VariableNames[i];
+        FunctionText += displayVarNames[i];
     }
     FunctionText += ")";
 }
@@ -319,10 +353,11 @@ function IsConstantVariable(Rect, Variable) {
 function RectToEquation(Rect) {
     var Text = "";
     var i = 0;
+    
     for (i = 0; i < VariableCount; i++) {
         if (IsConstantVariable(Rect, i)) {
             if (!KMap[Rect.x][Rect.y].Variable[i]) {
-                Text += "<span style='text-decoration: overline'>" + VariableNames[i] + "</span> ";
+                Text += VariableNames[i] + "' ";
             } else {
                 Text += VariableNames[i] + " ";
             }
@@ -470,7 +505,10 @@ function GenerateTruthTableHTML() {
                 Text = Text + "<td " + color + " style=\"width: 50px;\">" + DisplayValue(TruthTable[i][j].Variable) + "</td>";
             }
             Text = Text +
-                "<td><input class=\"remove-bottom full-width\" ID=\"" + TruthTable[i].ButtonUIName + "\" name=" + TruthTable[i].ButtonUIName + " type='button' value='" + DisplayValue(TruthTable[i].KMapEntry.Value) + "' onClick=\"ToggleTTEntry(TruthTable[" + i + "])\" ></td>" +
+                "<td class='truth-table-cell'><input class=\"remove-bottom full-width\" ID=\"" + 
+                TruthTable[i].ButtonUIName + "\" name=" + TruthTable[i].ButtonUIName + 
+                " type='button' value='" + DisplayValue(TruthTable[i].KMapEntry.Value) + 
+                "' onClick=\"ToggleTTEntry(TruthTable[" + i + "])\" ></td>" +
                 "</tr>";
         }
     }
@@ -483,8 +521,14 @@ function GenerateKarnoMapHTML() {
     var h, w;
     Text += "<th colspan=\"2\" style=\"background: #f8f9fa;\"></th>"; 
     Text += "<th style=\"background: black;border-bottom:2px solid rgb(31, 39, 55)\" colspan=" + KMap.Width + ">";
-    for (i = 0; i < KMap.XVariables; i++) {
-        Text += VariableNames[i];
+    if (VariableCount === 3) {
+        Text += VariableNames[1] + VariableNames[2];  // BC on top
+    } else if (VariableCount === 4) {
+        Text += VariableNames[2] + VariableNames[3];  // CD on top
+    } else {
+        for (i = 0; i < KMap.XVariables; i++) {
+            Text += VariableNames[i];
+        }
     }
     Text += "</th></tr></thead>";
     Text += "<tbody><tr><th style=\"background:#f8f9fa;\"></th>"; 
@@ -497,15 +541,23 @@ function GenerateKarnoMapHTML() {
         Text += "<tr>";
         if (h == 0) {
             Text += "<th style=\"background: black; width: 15%\" rowspan=" + (KMap.Height) + ">";
-            for (i = 0; i < KMap.YVariables; i++) {
-                Text += "<b class=\"header-color\">" + VariableNames[i + KMap.XVariables] + "</b>";
+            if (VariableCount === 3) {
+                Text += "<b class=\"header-color\">" + VariableNames[0] + "</b>";  // A on left
+            } else if (VariableCount === 4) {
+                Text += "<b class=\"header-color\">" + VariableNames[0] + VariableNames[1] + "</b>";
+            } else {
+                for (i = 0; i < KMap.YVariables; i++) {
+                    Text += "<b class=\"header-color\">" + VariableNames[i + KMap.XVariables] + "</b>";
+                }
             }
             Text += "</th>";
         }
         Text += "<th class=\"header-color\" style=\"border-left: 2px solid rgb(31, 39, 55);background: black;width: 15%\">" + BinaryString(BitOrder[h], KMap.YVariables) + "</th>";
         for (w = 0; w < KMap.Width; w++) {
-            Text += "<td ID='" + KMap[w][h].TDUIName + "' style='text-align:center;'>" +
-                "<input class=\"remove-bottom full-width\" ID=" + KMap[w][h].ButtonUIName + " name=" + KMap[w][h].ButtonUIName + " type='button'  value='" + DisplayValue(KMap[w][h].Value) + "' onClick=\"ToggleKMEntry(KMap[" + w + "][" + h + "])\">" +
+            Text += "<td ID='" + KMap[w][h].TDUIName + "' class='kmap-cell' onclick=\"ToggleKMEntry(KMap[" + w + "][" + h + "])\" style='position: relative;'>" +
+                "<input class=\"remove-bottom full-width\" ID=" + KMap[w][h].ButtonUIName + 
+                " name=" + KMap[w][h].ButtonUIName + 
+                " type='button' value='" + DisplayValue(KMap[w][h].Value) + "'>" +
                 "</td>";
         }
         Text += "</tr>";
