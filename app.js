@@ -419,6 +419,14 @@ function ToggleValue(Value) {
 
 function ToggleTTEntry(TTEntry) {
     TTEntry.KMapEntry.Value = ToggleValue(TTEntry.KMapEntry.Value);
+    
+    // Update corresponding K-map cell
+    const kmapCell = document.getElementById(TTEntry.KMapEntry.ButtonUIName);
+    if (kmapCell) {
+        kmapCell.value = DisplayValue(TTEntry.KMapEntry.Value);
+        kmapCell.style.backgroundColor = HighlightColor(DisplayValue(TTEntry.KMapEntry.Value));
+    }
+    
     RefreshUI();
 }
 
@@ -505,11 +513,12 @@ function GenerateTruthTableHTML() {
                 Text = Text + "<td " + color + " style=\"width: 50px;\">" + DisplayValue(TruthTable[i][j].Variable) + "</td>";
             }
             Text = Text +
-                "<td class='truth-table-cell'><input class=\"remove-bottom full-width\" ID=\"" + 
-                TruthTable[i].ButtonUIName + "\" name=" + TruthTable[i].ButtonUIName + 
+                "<td class='truth-table-cell' onclick=\"ToggleTTEntry(TruthTable[" + i + "])\">" +
+                "<input class=\"remove-bottom full-width\" ID=\"" + TruthTable[i].ButtonUIName + 
+                "\" name=" + TruthTable[i].ButtonUIName + 
                 " type='button' value='" + DisplayValue(TruthTable[i].KMapEntry.Value) + 
-                "' onClick=\"ToggleTTEntry(TruthTable[" + i + "])\" ></td>" +
-                "</tr>";
+                "' readonly>" +
+                "</td></tr>";
         }
     }
     Text = Text + "</table>";
